@@ -2,7 +2,7 @@ import unittest
 
 from day01 import get_distance, get_occurrences, get_similarity_total
 
-class TestDistance(unittest.TestCase):
+class TestDay01(unittest.TestCase):
     def test_sample(self):
         list1 = [3, 4, 2, 1, 3, 3]
         list2 = [4, 3, 5, 3, 9, 3]

@@ -1,3 +1,5 @@
+# solving: https://adventofcode.com/2024/day/1
+
 from pathlib import Path
 
 def get_distance (list1, list2):
@@ -37,7 +39,7 @@ def get_similarity_total(source_list, destination_list):
 
 
 #sample data accusition
-list1, list2 = get_data(f"{Path(__file__).resolve().parents[1]}/input.txt")
+list1, list2 = get_data(f"{Path(__file__).resolve().parents[1]}/input/day01.txt")
 
 #part 1
 distance = get_distance(list1, list2)
