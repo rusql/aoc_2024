@@ -26,30 +26,51 @@ def level_safe(level: list[int]) -> bool:
     # determine trend (increasing or decreasing)
     is_increasing = level[0] - level[1] > 0
 
-    prev_item = None
-    for item in level:
-        if prev_item == None:
-            prev_item = item
-            continue
+    i = 1  # start at second element
+    while i < len(level):
+        item = level[i]
+        prev_item = level[i - 1]
+
         diff = abs(item - prev_item)
         if diff < 1 or diff > 3:
-            return False
+            return i
         if is_increasing and (prev_item <= item):
-            return False
+            return i
         if not is_increasing and (prev_item >= item):
-            return False
-        prev_item = item
-    return True
+            return i
+
+        i += 1
+    return None
 
 
-def safe_level_count(levels):
+def safe_level_count(levels, allow_damper=False):
     safe_levels = 0
     for level in levels:
-        if level_safe(level):
+        problem_item = level_safe(level)
+
+        if problem_item == None:
             safe_levels += 1
+
+        elif (
+            problem_item != None
+            and allow_damper
+            # and level_safe(levels.copy().pop(problem_item)) == None
+        ):
+            removal_item_index = 0
+            while removal_item_index < len (level):
+                trimmed_level = level.copy()
+                trimmed_level.pop(removal_item_index)
+                
+                if level_safe(trimmed_level) == None:
+                    safe_levels += 1
+                    break
+                removal_item_index += 1
 
     return safe_levels
 
 
-input = get_data(f"{Path(__file__).resolve().parents[1]}/input/day02.txt")
-print (f"Safe levels: {safe_level_count(input)}")
+if __name__ == "__main__":
+    
+    input = get_data(f"{Path(__file__).resolve().parents[1]}/input/day02.txt")
+    print(f"Safe levels (un-dampened): {safe_level_count(input, False)}")
+    print(f"Safe levels (dampened): {safe_level_count(input, True)}")
